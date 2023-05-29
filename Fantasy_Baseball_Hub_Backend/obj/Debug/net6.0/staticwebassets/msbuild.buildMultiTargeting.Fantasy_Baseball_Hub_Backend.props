@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Fantasy_Baseball_Hub_Backend.props" />
+</Project>

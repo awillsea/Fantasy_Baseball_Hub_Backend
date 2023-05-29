@@ -23,6 +23,6 @@
 
         public decimal Defense { get; set; }
 
-        public decimal WinsAboveAverage { get; set; }
+        public decimal WinsAboveReplacement { get; set; }
     }
 }

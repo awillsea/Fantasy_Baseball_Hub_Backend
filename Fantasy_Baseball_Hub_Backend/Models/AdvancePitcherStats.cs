@@ -23,6 +23,6 @@
         public decimal FieldingIndependentPitching { get; set; }
         public decimal ExpectedFeildingIndependentPitching { get; set; }
 
-        public decimal WinsAboveAverage { get; set; }
+        public decimal WinsAboveReplacement { get; set; }
     }
 }

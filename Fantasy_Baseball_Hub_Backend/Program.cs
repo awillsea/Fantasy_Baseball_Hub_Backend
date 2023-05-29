@@ -1,3 +1,5 @@
+using Fantasy_Baseball_Hub_Backend.Models.Logic;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,5 +23,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+Webscraper.ScrapeBase();
 app.Run();

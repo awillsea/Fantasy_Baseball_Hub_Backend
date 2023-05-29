@@ -8,7 +8,9 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
 
         public static void ScrapeBase()
         {
-            ScrapeAdvanceHitterStats.ScrapeFanGraphsAdvanceHittingStats();
+            ScrapeAdvancePitcherStats.ScrapeFanGraphsAdvancePitchingStats();
+            //ScrapeStandardPitcherStats.ScrapeFanGraphsStandardPitchingStats();
+            //ScrapeAdvanceHitterStats.ScrapeFanGraphsAdvanceHittingStats();
         }
 
         

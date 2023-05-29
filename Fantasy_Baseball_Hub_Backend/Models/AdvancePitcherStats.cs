@@ -16,7 +16,7 @@
         public decimal GroundBallPercentage { get; set; }
         public decimal HomeRunToFlyBallRation { get; set; }
 
-        public decimal AverageFastBallVelocity { get; set; }
+        public decimal? AverageFastBallVelocity { get; set; }
         public decimal EarnedRunAverage { get; set; }
         public decimal ExpectedEarnRunAverage { get; set; }
 
@@ -24,5 +24,7 @@
         public decimal ExpectedFeildingIndependentPitching { get; set; }
 
         public decimal WinsAboveReplacement { get; set; }
+
+        
     }
 }

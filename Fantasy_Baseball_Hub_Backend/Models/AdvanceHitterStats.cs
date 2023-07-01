@@ -1,7 +1,12 @@
-﻿namespace Fantasy_Baseball_Hub_Backend.Models
+﻿using Dapper.Contrib.Extensions;
+using MySql.Data.MySqlClient;
+
+namespace Fantasy_Baseball_Hub_Backend.Models
 {
+    
     public class AdvanceHitterStats :Player 
     {
+        public int hitter_id { get; set; }
         public int GamesPlayed { get; set; }
         public int PlateApperances { get; set; }
         public int HomeRuns { get; set; }

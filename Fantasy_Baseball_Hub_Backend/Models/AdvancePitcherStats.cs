@@ -2,6 +2,7 @@
 {
     public class AdvancePitcherStats : Player 
     {
+        public int pitcher_id { get; set; }
         public int Wins { get; set; }
         public int Loses { get; set; }
         public int Saves { get; set; }
@@ -16,7 +17,7 @@
         public decimal GroundBallPercentage { get; set; }
         public decimal HomeRunToFlyBallRation { get; set; }
 
-        public decimal? AverageFastBallVelocity { get; set; }
+        public decimal AverageFastBallVelocity { get; set; }
         public decimal EarnedRunAverage { get; set; }
         public decimal ExpectedEarnRunAverage { get; set; }
 

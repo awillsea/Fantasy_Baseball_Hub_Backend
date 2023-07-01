@@ -98,9 +98,9 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
                     // Created a new instance of Class Player named newPlayer
                     //each list<string> aka player is being inserted into the Object Player by using the index of the list of info. 
                     AdvanceHitterStats newPlayer = new AdvanceHitterStats();
-                    newPlayer.ID = playersIDandPosition.Item1;
-                    newPlayer.Name = Regex.Replace(player[1], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
-                    newPlayer.Team = Regex.Replace(player[2], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
+                    newPlayer.hitter_id = playersIDandPosition.Item1;
+                    newPlayer.name = Regex.Replace(player[1], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
+                    //newPlayer.Team = Regex.Replace(player[2], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
                     newPlayer.Position = playersIDandPosition.Item2;
                     newPlayer.GamesPlayed = Int32.Parse(player[3]);
                     newPlayer.PlateApperances = Int32.Parse(player[4]);
@@ -134,7 +134,7 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
 
                 //public decimal WinsAboveAverage { get; set; }
 
-                Console.WriteLine(newPlayer.ID + " " + newPlayer.Name + " " + newPlayer.Team + " " + newPlayer.GamesPlayed + " " + newPlayer.PlateApperances + " " + newPlayer.HomeRuns + " " + newPlayer.Runs + " " + newPlayer.RBI + " " + newPlayer.StolenBase +
+                Console.WriteLine(newPlayer.hitter_id + " " + newPlayer.name +  " " + newPlayer.GamesPlayed + " " + newPlayer.PlateApperances + " " + newPlayer.HomeRuns + " " + newPlayer.Runs + " " + newPlayer.RBI + " " + newPlayer.StolenBase +
                   " " + newPlayer.WalkPercentage + " " + newPlayer.StrikeoutPercentage + " " + newPlayer.IsolatedPower + " " + newPlayer.BattingAverageonballsInPlay + " " + newPlayer.BattingAverage + " " + newPlayer.OnBasePercentage +
                   " " + newPlayer.SluggingPercentage + " " + newPlayer.weightedOnBasePercentage + " " + newPlayer.ExpectedWeightedOnBasePercentage + " " + newPlayer.WeightedRunsCreatedPlus + " " + newPlayer.BaseRunning + " " + newPlayer.Offense + " " + newPlayer.Defense + " " + newPlayer.WinsAboveReplacement);
                     // Once its done going through the individual list<string> player and filling the newPlayer,

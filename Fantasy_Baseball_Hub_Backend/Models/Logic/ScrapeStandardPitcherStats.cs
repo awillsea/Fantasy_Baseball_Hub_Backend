@@ -5,7 +5,144 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
 {
     public class ScrapeStandardPitcherStats
     {
-        public static void ScrapeFanGraphsStandardPitchingStats()
+        async public static Task<List<StandardPitcherStats>> ScrapeFanGraphsStandardPitchingStats()
+        {
+
+            // Only Scraping 21 pages of pitchers
+
+            int pagesToScrapeCount = 21;
+
+
+            // have playerCount here to make sure the total matches what is expected
+            //
+            //uncomment when needed
+            //
+            //int playerCount = 0;
+            //
+            // *** Make sure to uncomment lines 147 & 151 as well (Counter & Console)
+
+            //      ** List Containg Class Player info **
+            List<StandardPitcherStats> listOfPlayers = new List<StandardPitcherStats>();
+
+            //      ** List that will Contain HTMLNODES so we can sift through the data later **
+            List<HtmlNode> totalListOfPlayerNodes = new List<HtmlNode>();
+
+            List<List<string>> listOfPlayersInfo = new List<List<string>>();
+
+
+            // send get request to URL, in this case fangraphs.com
+            for (int i = 1; i <= pagesToScrapeCount; i++)
+            {
+                string url = $"https://www.fangraphs.com/leaders.aspx?pos=all&stats=pit&lg=all&qual=0&type=0&season=2023&month=0&season1=2023&ind=0&team=0&rost=0&age=0&filter=&players=0&startdate=2023-01-01&enddate=2023-12-31&page={i}_30";
+                var httpClient = new HttpClient();
+                var html = httpClient.GetStringAsync(url).Result;
+                var htmlDocument = new HtmlDocument();
+                htmlDocument.LoadHtml(html);
+
+
+                // Get list of Players
+
+                //      ** storing the nodes in both the listOfPlayerNodes, the first one is gathers the "odd rows" 
+                //       based on the Css selector in fangraphs are set up, and the second is grabing the "even" **
+                var listOfPlayerNodes = htmlDocument.DocumentNode.QuerySelectorAll("tr.rgRow");
+                var listOfPlayerNodes2 = htmlDocument.DocumentNode.QuerySelectorAll("tr.rgAltRow");
+
+                totalListOfPlayerNodes.AddRange(listOfPlayerNodes);
+                totalListOfPlayerNodes.AddRange(listOfPlayerNodes2);
+
+
+            }
+
+            // all the nodes inside the trs are going to be  looped through, and will get more specific with what we are looking for, 
+            // once we have declared the child nodes we are looking for its time to loop through that node.
+            // the child node will contain all the data tables inside each row of player from fangraphs table we scraped.
+            // IE. First we asked to take all the info from the table with the css selectors altrow and row
+            // now that all the info via nodes are saved in our list. Next we loop through that list to get each "coloum" aka table data or td inside each row
+            // each td/coloum in that row we are grabbing the HTML and saving that text to our temp list playerInfo.
+            // after its gone through One row it will save that newly created list of strings aka playerInfo and add it to ListOfPlayerInfo. 
+            // which is a list containing multiple smaller list of strings or an other way to think about it 
+            // a list storing each coloum of a row which is also a player. 
+            // broke the web document to its most basic form in order to give our logic the ability to understand what its working with and too save it to our database
+            //
+
+
+            //  ** Now that all the HtmlNodes are in one list, its time to loop through it to extract what we need **
+            foreach (var row in totalListOfPlayerNodes)
+            {
+                //      ** This is selecting all the child node that are table data with the class name grid_line_regular **
+                var rowOfplayerStats = row.QuerySelectorAll("td.grid_line_regular");
+
+                // created a list to store all the strings from each table data with the css selector(grid_line_regular)
+                List<string> playerInfo = new List<string>();
+
+                foreach (var tableData in rowOfplayerStats)
+                {
+                    // grabing the html from each item and triming off any excess white space
+                    var UniqueColoumInfo = tableData.InnerHtml.Trim();
+
+                    // adding it to my playinfoList
+                    playerInfo.Add(UniqueColoumInfo);
+
+                }
+
+                // adding that playerInfo to this list of playerInfo
+                listOfPlayersInfo.Add(playerInfo);
+
+
+            }
+
+            // looping through listplayerInfo each item in the listofplayersInfo is a player containing a list of strings.
+
+            foreach (var player in listOfPlayersInfo)
+            {   // created a Tuple so my Functions FindPlayerIDANdPostion() can take in one argument but return two results, the ID and Postion
+                Tuple<int, string> playersIDandPosition = FindPlayerIDAndPosition(player[1]);
+                // Created a new instance of Class Player named newPlayer
+                //each list<string> aka player is being inserted into the Object Player by using the index of the list of info. 
+                StandardPitcherStats newPlayer = new StandardPitcherStats();
+                newPlayer.fangraphs_player_id = playersIDandPosition.Item1;
+                newPlayer.wins = Int32.Parse(player[3]);
+                newPlayer.losses = Int32.Parse(player[4]);
+                newPlayer.era = Decimal.Parse(player[5]);
+                newPlayer.games_played = Int32.Parse(player[6]);
+                newPlayer.games_started = Int32.Parse(player[7]);
+                newPlayer.complete_game = Int32.Parse(player[8]);
+                newPlayer.shutout = Int32.Parse(player[9]);
+                newPlayer.saves = Int32.Parse(player[10]);
+                newPlayer.holds = Int32.Parse(player[11]);
+                newPlayer.blown_saves = Int32.Parse(player[12]);
+                newPlayer.innings_pitched = Decimal.Parse(player[13]);
+                newPlayer.total_batters_faced = Int32.Parse(player[14]);
+                newPlayer.hits_allowed = Int32.Parse(player[15]);
+                newPlayer.runs_allowed = Int32.Parse(player[16]);
+                newPlayer.earned_runs = Int32.Parse(player[17]);
+                newPlayer.homeruns = Int32.Parse(player[18]);
+                newPlayer.walks = Int32.Parse(player[19]);
+                newPlayer.ibb = Int32.Parse(player[20]);
+                newPlayer.hit_batters = Int32.Parse(player[21]);
+                newPlayer.wild_pitches= Int32.Parse(player[22]);
+                newPlayer.balks = Int32.Parse(player[23]);
+                newPlayer.strikeouts = Int32.Parse(player[24]);
+
+
+
+
+                //Console.WriteLine(newPlayer.name + " " + newPlayer.runs_allowed + " " + newPlayer.earned_runs);
+                // Once its done going through the individual list<string> player and filling the newPlayer,
+                // i added the newPlayer to a list of Object Player names listofPlayers
+                listOfPlayers.Add(newPlayer);
+
+            }
+            return listOfPlayers;
+            // Console.WriteLine(playerCount);
+
+
+
+
+        }
+
+
+
+        async public static Task<List<Player>> ScrapeFanGraphsStandardPitchingPlayer()
         {
 
             // Only Scraping 21 pages of pitchers
@@ -92,49 +229,43 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
             }
 
             // looping through listplayerInfo each item in the listofplayersInfo is a player containing a list of strings.
-
+            int pcount = 0;
             foreach (var player in listOfPlayersInfo)
             {   // created a Tuple so my Functions FindPlayerIDANdPostion() can take in one argument but return two results, the ID and Postion
                 Tuple<int, string> playersIDandPosition = FindPlayerIDAndPosition(player[1]);
                 // Created a new instance of Class Player named newPlayer
                 //each list<string> aka player is being inserted into the Object Player by using the index of the list of info. 
-                StandardPitcherStats newPlayer = new StandardPitcherStats();
-                newPlayer.ID = playersIDandPosition.Item1;
-                newPlayer.Name = Regex.Replace(player[1], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
-                newPlayer.Team = Regex.Replace(player[2], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
+                Player newPlayer = new Player();
+                newPlayer.fangraphs_player_id = playersIDandPosition.Item1;
+                newPlayer.name = Regex.Replace(player[1], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
+                newPlayer.team = Regex.Replace(player[2], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
                 newPlayer.Position = playersIDandPosition.Item2;
-                newPlayer.Wins = Int32.Parse(player[3]);
-                newPlayer.Loses = Int32.Parse(player[4]);
-                newPlayer.EarnedRunAverage = Decimal.Parse(player[5]);
-                newPlayer.GamesPlayed = Int32.Parse(player[6]);
-                newPlayer.GamesStarted = Int32.Parse(player[7]);
-                newPlayer.CompleteGame = Int32.Parse(player[8]);
-                newPlayer.ShutOut = Int32.Parse(player[9]);
-                newPlayer.Saves = Int32.Parse(player[10]);
-                newPlayer.Holds = Int32.Parse(player[11]);
-                newPlayer.BlownSaves = Int32.Parse(player[12]);
-                newPlayer.InningsPitched = Decimal.Parse(player[13]);
-                newPlayer.TotalBattersFaced = Int32.Parse(player[14]);
-                newPlayer.Hits = Int32.Parse(player[15]);
-                newPlayer.EarnedRuns = Int32.Parse(player[16]);
-                newPlayer.HomeRuns = Int32.Parse(player[17]);
-                newPlayer.Walks = Int32.Parse(player[18]);
-                newPlayer.IntentionalWalks = Int32.Parse(player[19]);
-                newPlayer.HitByPitch = Int32.Parse(player[20]);
-                newPlayer.Balks = Int32.Parse(player[21]);
-                newPlayer.StrikeOuts = Int32.Parse(player[22]);
-                
 
 
 
-                Console.WriteLine(newPlayer.ID + newPlayer.Name + newPlayer.Position);
-                // Once its done going through the individual list<string> player and filling the newPlayer,
-                // i added the newPlayer to a list of Object Player names listofPlayers
+
+                //if (listOfPlayers.Any(p => p.fangraphs_player_id == newPlayer.fangraphs_player_id))
+                //{
+                //    Console.WriteLine(newPlayer.name);
+
+                //    // Find all indices of players with the same fangraphs_player_id
+                //    var duplicateIndices = listOfPlayers
+                //        .Select((player, index) => new { Player = player, Index = index })
+                //        .Where(x => x.Player.fangraphs_player_id == newPlayer.fangraphs_player_id)
+                //        .Select(x => x.Index);
+
+                //    foreach (var index in duplicateIndices)
+                //    {
+                //        Console.WriteLine($"Duplicate found at index: {index}");
+                //    }
+                //}
                 listOfPlayers.Add(newPlayer);
 
             }
+            
 
-            // Console.WriteLine(playerCount);
+            return listOfPlayers;
+
 
 
 
@@ -183,7 +314,7 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
                 // creating an other substring thats going one index past the = and taking the next 4 indexies 
                 // the result should look like 13324
                 int indexOfEqual = output.IndexOf("=");
-                string playerIdSubString = output.Substring((indexOfEqual + 1), 4);
+                string playerIdSubString = removedBackHalfForId.Substring((indexOfEqual + 1));
                 // parseing the string into a number to store in our player class
                 playerID = Int32.Parse(playerIdSubString);
                 // creating.... YET an other ... substring removing everything up to the position of the first = sign this is what output currently looks like ?playerid=13324&position=2B/3B"

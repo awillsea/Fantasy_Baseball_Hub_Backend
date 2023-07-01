@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fantasy_Baseball_Hub_Backend", "Fantasy_Baseball_Hub_Backend\Fantasy_Baseball_Hub_Backend.csproj", "{1F88ED07-221A-46FE-9C6B-8A7E6DE67B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fantasy_Baseball_Hub_Backend", "Fantasy_Baseball_Hub_Backend\Fantasy_Baseball_Hub_Backend.csproj", "{1F88ED07-221A-46FE-9C6B-8A7E6DE67B59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{ABB14132-D493-4BC2-A813-27B3AE41A704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1F88ED07-221A-46FE-9C6B-8A7E6DE67B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F88ED07-221A-46FE-9C6B-8A7E6DE67B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F88ED07-221A-46FE-9C6B-8A7E6DE67B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB14132-D493-4BC2-A813-27B3AE41A704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB14132-D493-4BC2-A813-27B3AE41A704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB14132-D493-4BC2-A813-27B3AE41A704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB14132-D493-4BC2-A813-27B3AE41A704}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

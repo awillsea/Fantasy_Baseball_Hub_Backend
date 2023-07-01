@@ -99,9 +99,9 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
                 // Created a new instance of Class Player named newPlayer
                 //each list<string> aka player is being inserted into the Object Player by using the index of the list of info. 
                 AdvancePitcherStats newPlayer = new AdvancePitcherStats();
-                newPlayer.ID = playersIDandPosition.Item1;
-                newPlayer.Name = Regex.Replace(player[1], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
-                newPlayer.Team = Regex.Replace(player[2], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
+                newPlayer.pitcher_id = playersIDandPosition.Item1;
+                newPlayer.name = Regex.Replace(player[1], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
+                //newPlayer.Team = Regex.Replace(player[2], @"<a\b[^>]+>([^<]*(?:(?!</a)<[^<]*)*)</a>", "$1");
                 newPlayer.Position = playersIDandPosition.Item2;
                 newPlayer.Wins = Int32.Parse(player[3]);
                 newPlayer.Loses = Int32.Parse(player[4]);
@@ -137,7 +137,7 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
                     newPlayer.ExpectedEarnRunAverage = 0m;
                 }
 
-                Console.WriteLine($" {player[0]} + {newPlayer.Name} + {newPlayer.Team} + {newPlayer.Position} + {newPlayer.Wins} + {newPlayer.Loses} + {newPlayer.Saves} + {newPlayer.GamesPlayed} + {newPlayer.GamesStarted}" +
+                Console.WriteLine($" {player[0]} + {newPlayer.name} +  {newPlayer.Position} + {newPlayer.Wins} + {newPlayer.Loses} + {newPlayer.Saves} + {newPlayer.GamesPlayed} + {newPlayer.GamesStarted}" +
                     $" + {newPlayer.InningsPitched} + {newPlayer.StrikeoutsPerNineInnings} + {newPlayer.WalksPerNineInnings} + {newPlayer.HomeRunsPerNineInnings} + {newPlayer.BattingAverageOnBallsInPlay}" +
                     $" + {newPlayer.LeftOnBasePercentage} + {newPlayer.GroundBallPercentage} + {newPlayer.HomeRunToFlyBallRation} + {newPlayer.AverageFastBallVelocity} + {newPlayer.EarnedRunAverage}" +
                     $" + {newPlayer.ExpectedEarnRunAverage} + {newPlayer.FieldingIndependentPitching} + {newPlayer.ExpectedFeildingIndependentPitching} + {newPlayer.WinsAboveReplacement}");

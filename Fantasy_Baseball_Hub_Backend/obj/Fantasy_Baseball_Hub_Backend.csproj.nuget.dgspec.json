@@ -45,6 +45,18 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.123, )"
+            },
+            "Dapper.Contrib": {
+              "target": "Package",
+              "version": "[2.0.78, )"
+            },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[6.2.6, )"
+            },
             "HtmlAgilityPack": {
               "target": "Package",
               "version": "[1.11.46, )"
@@ -56,6 +68,10 @@
             "HtmlAgilityPack.CssSelectors.NetCore": {
               "target": "Package",
               "version": "[1.2.1, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.33, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

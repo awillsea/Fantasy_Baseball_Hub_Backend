@@ -6,11 +6,12 @@ namespace Fantasy_Baseball_Hub_Backend.Models.Logic
     public class Webscraper
     {
 
-        public static void ScrapeBase()
+        async public static void ScrapeBase()
         {
-            ScrapeAdvancePitcherStats.ScrapeFanGraphsAdvancePitchingStats();
+            //ScrapeAdvancePitcherStats.ScrapeFanGraphsAdvancePitchingStats();
             //ScrapeStandardPitcherStats.ScrapeFanGraphsStandardPitchingStats();
             //ScrapeAdvanceHitterStats.ScrapeFanGraphsAdvanceHittingStats();
+            await ScrapeStandardHitterStats.ScrapeFanGraphsStandardHittingStats();
         }
 
         
